@@ -269,7 +269,12 @@ function NostalgyHide(restore) {
  nostalgy_th_statusBar.hidden = nostalgy_th_statusBar_orig_hidden;
 
  if (nostalgy_focus_saved) {
-  if (restore) nostalgy_focus_saved.focus ();
+  if (restore) {
+    if (nostalgy_folderBox != nostalgy_focus_saved) {
+      var _nfs = nostalgy_focus_saved;
+      setTimeout(function() {_nfs.focus();}, 0);
+    }
+  }
   nostalgy_focus_saved = null;
  }
  NostalgyDefLabel();
@@ -331,6 +336,7 @@ function NostalgyShowRecentFoldersList() {
   var box = nostalgy_folderBox;
   if (box.controller) {// Toolkit
     listener = box.controller.QueryInterface(Components.interfaces.nsIAutoCompleteObserver);
+    box.controller.handleKeyNavigation(KeyEvent.DOM_VK_DOWN);
 	}
   else { // XPFE
     // box.mAutoCompleteObserver uses a flawed equality check so we have to replace it.
